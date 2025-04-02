@@ -67,8 +67,13 @@ function pokemonCards(data) {
                     return;
                 }
 
+                const link = document.createElement('a');
+                link.href = `./card-detail.html?id=${pokemonData.id}`;
+                link.classList.add('pokemonCardLink');
+
                 const div = document.createElement('div');
                 div.classList.add('pokemonCard');
+                link.appendChild(div);
 
                 const p = document.createElement('p');
                 const pCap = pokemon.name.replace(/\b\w/g, char => char.toUpperCase());
@@ -84,7 +89,7 @@ function pokemonCards(data) {
                     div.appendChild(img);
                 }
 
-                document.getElementById('pokemonDisplay').appendChild(div);
+                document.getElementById('pokemonDisplay').appendChild(link);
             })
             .catch(error => console.error("Error fetching Pokémon details:", error));
     });

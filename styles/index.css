@@ -44,6 +44,16 @@ header div {
     color: black;
 }
 
+h1 {
+    text-align: center;
+    text-decoration: underline;
+    font-size: 50px;
+}
+
+a {
+    text-decoration: none;
+}
+
 .info {
     background-color: var(--foreground);
     border: 1px solid black;
@@ -54,12 +64,6 @@ header div {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-h1 {
-    text-align: center;
-    text-decoration: underline;
-    font-size: 50px;
 }
 
 #pokemonDisplay {
@@ -153,14 +157,14 @@ h1 {
 }
 
 #returnButton {
-    margin: 20px auto;
     padding: 10px 20px;
-    background-color: var(--background);
-    color: white;
     border: none;
     cursor: pointer;
     font-size: 18px;
     text-align: center;
+    background-color: var(--background);
+    color: white;
+    margin: 20px auto;
 }
 
 #searchBar {
