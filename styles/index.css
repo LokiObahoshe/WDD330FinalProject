@@ -1,0 +1,54 @@
+:root {
+    --foreground: #ffe5e6;
+    --background: #B60102;
+}
+
+header div {
+    border: 1px solid black;
+    width: 50%;
+    text-align: center;
+    margin: 10px auto;
+}
+
+h1 {
+    text-align: center;
+    text-decoration: underline;
+}
+
+#pokemonDisplay {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    padding: 10px;
+}
+
+.typesContainer {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    text-align: center;
+}
+
+.pokemonCard {
+    border: 2px solid black;
+    padding: 10px;
+    text-align: center;
+    background: linear-gradient(to bottom, var(--foreground) 50%, var(--background) 50%);
+    color: black;
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 70%;
+}
+
+.pokemonCard:hover,
+.typesContainer div:hover {
+    transform: scale(1.1);
+}
+
+.typesContainer div {
+    border: 2px solid black;
+    width: 50%;
+    text-align: center;
+    transition: transform 0.3s;
+    cursor: pointer;
+    margin: 10px auto;
+}
