@@ -3,16 +3,63 @@
     --background: #B60102;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Parkinsans", serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+button {
+    font-family: "Itim", cursive;
+}
+
+main {
+    text-align: center;
+}
+
+header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--background);
+    color: white;
+    padding: 20px;
+    flex-direction: row;
+    text-align: center;
+    height: 150px;
+    margin-bottom: 50px;
+}
+
 header div {
-    border: 1px solid black;
-    width: 50%;
     text-align: center;
     margin: 10px auto;
+    cursor: pointer;
+    color: black;
+}
+
+.info {
+    background-color: var(--foreground);
+    border: 1px solid black;
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 h1 {
     text-align: center;
     text-decoration: underline;
+    font-size: 50px;
 }
 
 #pokemonDisplay {
@@ -28,15 +75,67 @@ h1 {
     text-align: center;
 }
 
+.typesContainer div:hover .type-name {
+    opacity: 1;
+}
+
+.type-name {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: black;
+}
+
+.typesContainer div {
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s;
+    cursor: pointer;
+    margin: 10px auto;
+}
+
+.typesContainer img {
+    width: 80px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    transition: transform 0.3s;
+}
+
+.typesContainer img:hover {
+    transform: scale(1.1);
+}
+
+.typesContainer img {
+    width: 100px;
+    height: auto;
+}
+
 .pokemonCard {
     border: 2px solid black;
+    border-radius: 50%;
     padding: 10px;
     text-align: center;
     background: linear-gradient(to bottom, var(--foreground) 50%, var(--background) 50%);
     color: black;
     cursor: pointer;
     transition: transform 0.3s;
-    width: 70%;
+    width: 210px;
+    height: 210px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.pokemonCard img {
+    width: 150px;
+    height: auto;
+}
+
+.pokemonCard p {
+    font-size: 30px;
+    margin-top: 30px;
 }
 
 .pokemonCard:hover,
@@ -44,11 +143,22 @@ h1 {
     transform: scale(1.1);
 }
 
-.typesContainer div {
-    border: 2px solid black;
-    width: 50%;
+.hidden {
+    display: none;
+}
+
+#pokemonDisplayContainer {
+    display: none;
     text-align: center;
-    transition: transform 0.3s;
+}
+
+#returnButton {
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #B60102;
+    color: white;
+    border: none;
     cursor: pointer;
-    margin: 10px auto;
+    font-size: 18px;
+    text-align: center;
 }

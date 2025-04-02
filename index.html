@@ -4,6 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
     <title>Document</title>
     <link rel="stylesheet" href="styles/index.css">
     <script src="scripts/index.js" defer></script>
@@ -13,70 +17,94 @@
     <main>
         <header>
             <div>
-                <p>search bar</p>
+                <input type="text" id="searchBar" class="hidden" placeholder="Search for a Pokémon..." />
             </div>
             <h1>Pokepedia</h1>
-            <div>
+            <div class="info">
                 <p>info</p>
             </div>
         </header>
         <div class="typesContainer">
-            <div>
-                <p>fire</p>
+            <div class="type-item">
+                <img src="images/fire.png" alt="fire" />
+                <span class="type-name">Fire</span>
             </div>
-            <div>
-                <p>water</p>
+            <div class="type-item">
+                <img src="images/water.png" alt="water" />
+                <span class="type-name">Water</span>
             </div>
-            <div>
-                <p>grass</p>
+            <div class="type-item">
+                <img src="images/grass.jpeg" alt="grass" />
+                <span class="type-name">Grass</span>
             </div>
-            <div>
-                <p>electric</p>
+            <div class="type-item">
+                <img src="images/electric.jpeg" alt="electric" />
+                <span class="type-name">Electric</span>
             </div>
-            <div>
-                <p>normal</p>
+            <div class="type-item">
+                <img src="images/normal.png" alt="normal" />
+                <span class="type-name">Normal</span>
             </div>
-            <div>
-                <p>ice</p>
+            <div class="type-item">
+                <img src="images/ice.png" alt="ice" />
+                <span class="type-name">Ice</span>
             </div>
-            <div>
-                <p>fighting</p>
+            <div class="type-item">
+                <img src="images/fighting.png" alt="fighting" />
+                <span class="type-name">Fighting</span>
             </div>
-            <div>
-                <p>poison</p>
+            <div class="type-item">
+                <img src="images/poison.png" alt="poison" />
+                <span class="type-name">Poison</span>
             </div>
-            <div>
-                <p>ground</p>
+            <div class="type-item">
+                <img src="images/ground.png" alt="ground" />
+                <span class="type-name">Ground</span>
             </div>
-            <div>
-                <p>flying</p>
+            <div class="type-item">
+                <img src="images/flying.png" alt="flying" />
+                <span class="type-name">Flying</span>
             </div>
-            <div>
-                <p>psychic</p>
+            <div class="type-item">
+                <img src="images/psychic.png" alt="psychic" />
+                <span class="type-name">Psychic</span>
             </div>
-            <div>
-                <p>bug</p>
+            <div class="type-item">
+                <img src="images/bug.png" alt="bug" />
+                <span class="type-name">Bug</span>
             </div>
-            <div>
-                <p>rock</p>
+            <div class="type-item">
+                <img src="images/rock.png" alt="rock" />
+                <span class="type-name">Rock</span>
             </div>
-            <div>
-                <p>ghost</p>
+            <div class="type-item">
+                <img src="images/ghost.png" alt="ghost" />
+                <span class="type-name">Ghost</span>
             </div>
-            <div>
-                <p>dragon</p>
+            <div class="type-item">
+                <img src="images/dragon.png" alt="dragon" />
+                <span class="type-name">Dragon</span>
             </div>
-            <div>
-                <p>dark</p>
+            <div class="type-item">
+                <img src="images/dark.png" alt="dark" />
+                <span class="type-name">Dark</span>
             </div>
-            <div>
-                <p>steel</p>
+            <div class="type-item">
+                <img src="images/steel.png" alt="steel" />
+                <span class="type-name">Steel</span>
             </div>
-            <div>
-                <p>fairy</p>
+            <div class="type-item">
+                <img src="images/fairy.png" alt="fairy" />
+                <span class="type-name">Fairy</span>
             </div>
+
         </div>
-        <div id="pokemonDisplay"></div>
+
+        <button id="returnButton" class="hidden">Return to Types</button>
+
+        <div id="pokemonDisplayContainer">
+            <div id="pokemonDisplay"></div>
+        </div>
     </main>
 </body>
 
