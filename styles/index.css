@@ -1,6 +1,7 @@
 :root {
     --foreground: #ffe5e6;
     --background: #B60102;
+    --water: #4f72d1;
 }
 
 * {
@@ -29,7 +30,6 @@ header {
     align-items: center;
     justify-content: space-between;
     background-color: var(--background);
-    color: white;
     padding: 20px;
     flex-direction: row;
     text-align: center;
@@ -155,10 +155,16 @@ h1 {
 #returnButton {
     margin: 20px auto;
     padding: 10px 20px;
-    background-color: #B60102;
+    background-color: var(--background);
     color: white;
     border: none;
     cursor: pointer;
     font-size: 18px;
     text-align: center;
+}
+
+#searchBar {
+    width: 200px;
+    height: 30px;
+    margin: 10px;
 }
