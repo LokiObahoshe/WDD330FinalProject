@@ -1,5 +1,8 @@
+import { changeThemeForType } from './theme.js';
+
 const urlParams = new URLSearchParams(window.location.search);
 const pokemonId = urlParams.get('id');
+const returnButton = document.getElementById('returnButton');
 
 console.log("Pokemon ID:", pokemonId);
 
@@ -9,8 +12,6 @@ async function getPokemonDetail() {
     if (!pokemonId) {
         return;
     }
-
-    const detailUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`;
 
     const response = await fetch(detailUrl);
     if (response.ok) {
@@ -62,38 +63,50 @@ async function getLatestPokemonCry(pokemonId) {
 async function displayPokemonDetails(pokemonData) {
     const container = document.querySelector('#pokemonDetailContainer');
 
+    const pokemonType = pokemonData.types[0].type.name;
+
+    changeThemeForType(pokemonType);
+
+    const header = document.createElement('header');
+    header.classList.add('detailsHeader');
+    container.appendChild(header);
 
     const pokedexButton = document.createElement('button');
     pokedexButton.textContent = 'View Pokédex Entry';
-    pokedexButton.classList.add('button');
+    pokedexButton.classList.add('detailButtons');
 
 
-    const nameParts = pokemonData.name.split('-');
-    let normalizedName = nameParts[0];
-    if (nameParts[1] === 'mega' || nameParts[1] === 'primal') {
-        normalizedName += `/${nameParts[1]}`;
-        if (nameParts[2]) {
-            normalizedName += `-${nameParts[2]}`;
-        }
-    }
-    pokedexButton.onclick = () => {
-        window.open(`https://pokemondb.net/pokedex/${normalizedName}`, '_blank');
-    };
+    header.appendChild(pokedexButton);
 
-    container.appendChild(pokedexButton);
-
-    // Foavorite button to add a pokemon to favorites
+    // creates favorite button to add a pokemon to favorites
     const favoriteButton = document.createElement('button');
     favoriteButton.textContent = 'Add to Favorites';
-    favoriteButton.classList.add('button');
+    favoriteButton.classList.add('detailButtons');
     favoriteButton.onclick = () => addToFavorites(pokemonData);
-    container.appendChild(favoriteButton);
+    header.appendChild(favoriteButton);
 
     // Creates and displays pokemon names
-    const name = document.createElement('h2');
+    const name = document.createElement('h1');
     const nameCap = pokemonData.name.replace(/\b\w/g, char => char.toUpperCase());
     name.textContent = nameCap;
-    container.appendChild(name);
+    header.appendChild(name);
+
+    // Creates view favorite button to view favorite pokemon
+    const viewFavorites = document.createElement('button');
+    viewFavorites.textContent = 'View Your Favorite Pokémon';
+    viewFavorites.setAttribute('id', 'viewFavoritesbutton');
+    viewFavorites.classList.add('detailButtons');
+    header.appendChild(viewFavorites)
+
+    viewFavorites.addEventListener('click', navigateToFavorites);
+
+    // Creates a "return to types" button
+    const returnTypesButton = document.createElement('button');
+    returnTypesButton.textContent = 'Return to Types';
+    returnTypesButton.classList.add('detailButtons');
+    header.appendChild(returnTypesButton)
+
+    returnTypesButton.addEventListener('click', navigateToHome);
 
     // Creates and display pokemon images
     const sprites = pokemonData.sprites;
@@ -263,6 +276,15 @@ function addToFavorites(pokemonData) {
     } else {
         alert(`${pokemonData.name} already exists in your favorites.`);
     }
+}
+
+// Function to lead to favorites page
+function navigateToFavorites() {
+    window.location.href = 'favorites.html';
+}
+
+function navigateToHome() {
+    window.location.href = 'index.html';
 }
 
 getPokemonDetail();

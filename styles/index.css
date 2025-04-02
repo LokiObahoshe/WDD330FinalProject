@@ -114,7 +114,8 @@ a {
     height: auto;
 }
 
-.pokemonCard {
+.pokemonCard,
+.favorite-card {
     border: 2px solid black;
     border-radius: 50%;
     padding: 10px;
@@ -132,7 +133,8 @@ a {
     justify-content: center;
 }
 
-.pokemonCard img {
+.pokemonCard img,
+.favorite-card img {
     width: 150px;
     height: auto;
 }
@@ -158,7 +160,7 @@ a {
 
 #returnButton {
     padding: 10px 20px;
-    border: none;
+    border: 1px solid black;
     cursor: pointer;
     font-size: 18px;
     text-align: center;
@@ -171,4 +173,71 @@ a {
     width: 200px;
     height: 30px;
     margin: 10px;
+}
+
+/* Details Page */
+
+#pokemonDetailContainer img {
+    width: 250px;
+    height: auto;
+    margin: 20px;
+    background: linear-gradient(to bottom, var(--foreground) 50%, var(--background) 50%);
+}
+
+#pokemonDetailContainer img:hover {
+    transform: scale(1.05);
+}
+
+
+#pokemonDetailContainer {
+    text-align: center;
+}
+
+.detailButtons {
+    width: 100px;
+    height: 50px;
+}
+
+/* Favorites Page */
+
+.favorite-card {
+    margin: 80px auto;
+}
+
+.favorite-card h2 {
+    font-size: 30px;
+    margin-top: 60px;
+}
+
+
+.favorite-card:hover {
+    transform: scale(1.1);
+}
+
+.favorite-card button {
+    font-size: 18px;
+    background-color: var(--foreground);
+    border-radius: 20px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.favorite-card button:hover {
+    background-color: var(--background);
+    color: white;
+}
+
+.favorites-body {
+    text-align: center;
+}
+
+#favoritesContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.favorites-body h1 {
+    text-decoration: underline;
 }
