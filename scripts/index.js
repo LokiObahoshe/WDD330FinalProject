@@ -1,9 +1,11 @@
+// This import from "theme.js" is used to help change colors
+// depending on which type is chosen
 import { changeThemeForType } from './theme.js';
 
-const url = "https://pokeapi.co/api/v2/pokemon?limit=100000";
 let results = null;
 let selectedType = null;
 let debounceTimeout;
+const detailUrl = "https://pokeapi.co/api/v2/pokemon?limit=100000";
 
 // consts for grabbing ID's in HTML
 const returnButton = document.getElementById('returnButton');
@@ -13,11 +15,13 @@ const pokemonDisplay = document.getElementById('pokemonDisplay');
 const searchBar = document.getElementById('searchBar');
 
 // Function for fetching Pokémon URL
-async function getPokemon(url) {
-    const response = await fetch(url);
+async function getPokemonDetail() {
+    const response = await fetch(detailUrl);
     if (response.ok) {
         const data = await response.json();
         pokemonCards(data);
+    } else {
+        console.error('Failed to fetch Pokémon details');
     }
 }
 
@@ -102,7 +106,7 @@ typesContainer.addEventListener('click', (event) => {
     if (event.target.tagName === 'IMG') {
         selectedType = event.target.alt.toLowerCase();
 
-        getPokemon(url);
+        getPokemonDetail();
     }
 });
 
@@ -112,7 +116,7 @@ searchBar.addEventListener('input', () => {
     clearTimeout(debounceTimeout);
 
     debounceTimeout = setTimeout(() => {
-        getPokemon(url);
+        getPokemonDetail();
     }, 300);
 });
 
@@ -132,12 +136,13 @@ returnButton.addEventListener('click', () => {
     document.body.style.color = 'white';
 });
 
+// This function leads the user to the favorites page
 function navigateToFavorites() {
     window.location.href = 'favorites.html';
 }
 
+// This line creates an event listener for the favorites button
 const viewFavoritesButton = document.getElementById('viewFavoritesbutton');
-
 viewFavoritesButton.addEventListener('click', navigateToFavorites);
 
-getPokemon(url);
+getPokemonDetail();
