@@ -1,12 +1,7 @@
 const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 const favoritesContainer = document.querySelector('#favoritesContainer');
 
-// Function to capitalize the name
-function capitalizeName(name) {
-    return name.replace(/\b\w/g, char => char.toUpperCase());
-}
-
-// Function to remove pokemon from favorites page
+// This function removes pokemon from the favorites page
 function removeFromFavorites(pokemonId, favDiv) {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     favorites = favorites.filter(fav => fav.id !== pokemonId);
@@ -18,7 +13,7 @@ function removeFromFavorites(pokemonId, favDiv) {
     }
 }
 
-// Function to display an empty favorites message
+// This function displays an empty favorites message
 function displayEmptyMessage() {
     const existingMessage = document.querySelector('.empty-message');
     if (existingMessage) {
@@ -33,7 +28,8 @@ function displayEmptyMessage() {
     favoritesContainer.appendChild(emptyMessage);
 }
 
-// Displays each favorite pokemon
+// This conditional statement displays each favorite pokemon
+// and checks if there are no favorite pokemon added
 if (favorites.length === 0) {
     displayEmptyMessage();
 } else {
@@ -42,7 +38,8 @@ if (favorites.length === 0) {
         favDiv.classList.add('favorite-card');
 
         const favName = document.createElement('h2');
-        favName.textContent = capitalizeName(fav.name);
+        const favNameCap = fav.name.replace(/\b\w/g, char => char.toUpperCase());
+        favName.textContent = favNameCap;
         favDiv.appendChild(favName);
 
         const favSprite = createSpriteImage(fav.sprite, 'Favorite Sprite');
@@ -60,7 +57,7 @@ if (favorites.length === 0) {
     });
 }
 
-// Checks to make sure an image is available and uses lazy load
+// This function checks to make sure an image is available and uses lazy loading
 function createSpriteImage(src, alt) {
     if (!src) return null;
     const img = document.createElement('img');
@@ -70,3 +67,39 @@ function createSpriteImage(src, alt) {
     img.loading = 'lazy';
     return img;
 }
+
+const returnToTypesButton = document.querySelector('#returnToTypesButton');
+
+returnToTypesButton.addEventListener('click', () => {
+    window.location.href = 'index.html';
+});
+
+//////////////////* Dark Mode *//////////////////////
+
+const darkModeButton = document.getElementById('darkMode');
+
+// This line checks if dark mode is enabled in localStorage
+const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+// This function toggles dark mode
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+
+    const currentMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', currentMode);
+
+    darkModeButton.textContent = currentMode ? 'Light Mode' : 'Dark Mode';
+}
+
+// This conditional statement changes the button text
+// whenever light or dark mode is selected
+if (isDarkMode) {
+    document.body.classList.add('dark-mode');
+    darkModeButton.textContent = 'Light Mode';
+} else {
+    darkModeButton.textContent = 'Dark Mode';
+}
+
+darkModeButton.addEventListener('click', toggleDarkMode);
+
+//////////////////////////////////////////

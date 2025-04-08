@@ -2,6 +2,13 @@ export function changeThemeForType(type) {
     const returnButton = document.querySelector('#returnButton');
     const h1 = document.querySelector('h1');
 
+    // This function allows all the color palets from
+    // the "changeThemeForType" function to avoid
+    // overriding dark mode
+    if (document.body.classList.contains('dark-mode')) {
+        return;
+    }
+
     if (!type && h1) {
         h1.style.color = 'white';
         return;

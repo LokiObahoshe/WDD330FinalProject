@@ -9,6 +9,7 @@ const detailUrl = "https://pokeapi.co/api/v2/pokemon?limit=100000";
 
 // consts for grabbing ID's in HTML
 const returnButton = document.getElementById('returnButton');
+const info = document.getElementById('info');
 const pokemonDisplayContainer = document.getElementById('pokemonDisplayContainer');
 const typesContainer = document.querySelector('.typesContainer');
 const pokemonDisplay = document.getElementById('pokemonDisplay');
@@ -36,6 +37,8 @@ function filterPokemonByName(query) {
     return filteredResults;
 }
 
+//////////////////* Pokemon Cards *//////////////////////
+
 // Function for displaying Pokémon data
 function pokemonCards(data) {
     results = data;
@@ -55,6 +58,7 @@ function pokemonCards(data) {
         returnButton.classList.remove('hidden');
         searchBar.classList.remove('hidden');
         returnButton.style.color = 'black';
+        info.classList.add('hidden');
     }
 
     changeThemeForType(selectedType);
@@ -101,6 +105,10 @@ function pokemonCards(data) {
     });
 }
 
+//////////////////////////////////////////
+
+//////////////////* Miscellaneous *//////////////////////
+
 // Event listener for selecting Pokemon types
 typesContainer.addEventListener('click', (event) => {
     if (event.target.tagName === 'IMG') {
@@ -129,6 +137,7 @@ returnButton.addEventListener('click', () => {
     }
 
     typesContainer.classList.remove('hidden');
+    info.classList.remove('hidden');
     pokemonDisplayContainer.style.display = 'none';
     returnButton.classList.add('hidden');
     searchBar.classList.add('hidden');
@@ -149,5 +158,42 @@ function navigateToFavorites() {
 // This line creates an event listener for the favorites button
 const viewFavoritesButton = document.getElementById('viewFavoritesbutton');
 viewFavoritesButton.addEventListener('click', navigateToFavorites);
+
+//////////////////////////////////////////
+
+
+//////////////////* Dark Mode *//////////////////////
+
+const darkModeButton = document.getElementById('darkMode');
+
+// This line checks if dark mode is enabled in localStorage
+const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+// This function toggles dark mode
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+
+    const currentMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', currentMode);
+
+    darkModeButton.textContent = currentMode ? 'Light Mode' : 'Dark Mode';
+
+    if (!currentMode) {
+        changeThemeForType(selectedType);
+    }
+}
+
+// This conditional statement changes the button text
+// whenever light or dark mode is selected
+if (isDarkMode) {
+    document.body.classList.add('dark-mode');
+    darkModeButton.textContent = 'Light Mode';
+} else {
+    darkModeButton.textContent = 'Dark Mode';
+}
+
+darkModeButton.addEventListener('click', toggleDarkMode);
+
+//////////////////////////////////////////
 
 getPokemonDetail();
