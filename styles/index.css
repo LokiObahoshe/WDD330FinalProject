@@ -40,7 +40,6 @@ header div {
     text-align: center;
     margin: 10px auto;
     cursor: pointer;
-    color: black;
 }
 
 h1 {
@@ -65,6 +64,7 @@ a {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    color: black;
 }
 
 .info:hover,

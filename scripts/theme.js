@@ -2,6 +2,11 @@ export function changeThemeForType(type) {
     const returnButton = document.querySelector('#returnButton');
     const h1 = document.querySelector('h1');
 
+    if (!type && h1) {
+        h1.style.color = 'white';
+        return;
+    }
+
     // If the types choosen are ghost or dark, make h1 white
     if (type === 'ghost' || type === 'dark') {
 
@@ -23,7 +28,7 @@ export function changeThemeForType(type) {
     }
 
     if (type === 'water') {
-        document.documentElement.style.setProperty('--background', '#4f72d1');
+        document.documentElement.style.setProperty('--background', '#8ea8ed');
         document.documentElement.style.setProperty('--foreground', '#d1e5f1');
     } else if (type === 'grass') {
         document.documentElement.style.setProperty('--background', '#4fd169');
@@ -41,16 +46,16 @@ export function changeThemeForType(type) {
         document.documentElement.style.setProperty('--background', '#f7ae40');
         document.documentElement.style.setProperty('--foreground', '#fff5e6');
     } else if (type === 'poison') {
-        document.documentElement.style.setProperty('--background', '#a44bdb');
+        document.documentElement.style.setProperty('--background', '#be7be8');
         document.documentElement.style.setProperty('--foreground', '#f9f0ff');
     } else if (type === 'ground') {
-        document.documentElement.style.setProperty('--background', '#b38054');
+        document.documentElement.style.setProperty('--background', '#c9986d');
         document.documentElement.style.setProperty('--foreground', '#d9cfc7');
     } else if (type === 'flying') {
         document.documentElement.style.setProperty('--background', '#abcedb');
         document.documentElement.style.setProperty('--foreground', '#e9f1f5');
     } else if (type === 'psychic') {
-        document.documentElement.style.setProperty('--background', '#d951e8');
+        document.documentElement.style.setProperty('--background', '#e06bed');
         document.documentElement.style.setProperty('--foreground', '#f0c6f5');
     } else if (type === 'bug') {
         document.documentElement.style.setProperty('--background', '#92e89e');
@@ -77,13 +82,10 @@ export function changeThemeForType(type) {
         document.documentElement.style.setProperty('--background', '#f56ed1');
         document.documentElement.style.setProperty('--foreground', '#ffdef6');
     } else if (type === 'fire') {
-        document.documentElement.style.setProperty('--background', '#ed5837');
+        document.documentElement.style.setProperty('--background', '#f5775b');
         document.documentElement.style.setProperty('--foreground', '#fff3f0');
     } else {
         document.documentElement.style.setProperty('--background', '#B60102');
         document.documentElement.style.setProperty('--foreground', '#ffe5e6');
-        if (returnButton != null) {
-            returnButton.style.color = 'white';
-        }
     }
 }

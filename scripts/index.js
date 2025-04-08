@@ -123,6 +123,11 @@ searchBar.addEventListener('input', () => {
 // Event listener for showing and hiding certain elements
 // when the types are interacted with
 returnButton.addEventListener('click', () => {
+    const h1 = document.querySelector('h1');
+    if (h1) {
+        h1.style.color = 'white';
+    }
+
     typesContainer.classList.remove('hidden');
     pokemonDisplayContainer.style.display = 'none';
     returnButton.classList.add('hidden');
