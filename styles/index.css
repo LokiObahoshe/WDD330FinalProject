@@ -1,7 +1,6 @@
 :root {
     --foreground: #ffe5e6;
     --background: #B60102;
-    --water: #4f72d1;
 }
 
 * {
@@ -28,7 +27,6 @@ header {
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     background-color: var(--background);
     padding: 20px;
     flex-direction: row;
@@ -41,7 +39,6 @@ header div {
     text-align: center;
     margin: 10px auto;
     cursor: pointer;
-    color: black;
 }
 
 h1 {
@@ -54,16 +51,31 @@ a {
     text-decoration: none;
 }
 
-.info {
+.detailButtons {
     background-color: var(--foreground);
     border: 1px solid black;
-    width: 150px;
+    width: 190px;
     height: 50px;
     font-size: 20px;
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    color: black;
+    margin: 0 auto;
+}
+
+#info {
+    margin-bottom: 20px;
+}
+
+.detailButtons:hover {
+    transform: scale(1.1);
+}
+
+.detailsHeader {
+    justify-content: space-around;
 }
 
 #pokemonDisplay {
@@ -114,7 +126,8 @@ a {
     height: auto;
 }
 
-.pokemonCard {
+.pokemonCard,
+.favorite-card {
     border: 2px solid black;
     border-radius: 50%;
     padding: 10px;
@@ -132,7 +145,8 @@ a {
     justify-content: center;
 }
 
-.pokemonCard img {
+.pokemonCard img,
+.favorite-card img {
     width: 150px;
     height: auto;
 }
@@ -158,7 +172,7 @@ a {
 
 #returnButton {
     padding: 10px 20px;
-    border: none;
+    border: 1px solid black;
     cursor: pointer;
     font-size: 18px;
     text-align: center;
@@ -171,4 +185,210 @@ a {
     width: 200px;
     height: 30px;
     margin: 10px;
+}
+
+/* Details Page */
+
+#pokemonDetailContainer img {
+    width: 250px;
+    height: auto;
+    margin: 20px;
+    background: linear-gradient(to bottom, var(--foreground) 50%, var(--background) 50%);
+}
+
+#pokemonDetailContainer img:hover {
+    transform: scale(1.05);
+}
+
+
+#pokemonDetailContainer {
+    text-align: center;
+}
+
+.evolution-chain {
+    display: flex;
+    gap: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.evolution-step {
+    cursor: pointer;
+    text-align: center;
+}
+
+.evolution-step img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.evolution-step span {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.criesButton {
+    margin: 20px auto;
+}
+
+.typetextarea,
+.pokemon-moves {
+    background-color: var(--foreground);
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.typetextarea p {
+    padding: 20px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.pokemon-moves {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 90%;
+}
+
+.pokemon-moves p {
+    padding: 10px;
+}
+
+.pokemon-move {
+    width: 90%;
+    height: auto;
+    margin: 10px auto;
+    border: 1px solid black;
+    padding: 10px;
+    background-color: var(--background)
+}
+
+.card-detail-body h1 {
+    text-decoration: none;
+    margin: 20px;
+}
+
+.card-detail-body h2 {
+    text-decoration: underline;
+}
+
+.criesDiv {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 35%;
+    margin: 0 auto;
+}
+
+/* Favorites Page */
+
+.favorite-card {
+    margin: 80px auto;
+}
+
+.favorite-card h2 {
+    font-size: 30px;
+    margin-top: 60px;
+}
+
+
+.favorite-card:hover {
+    transform: scale(1.1);
+}
+
+.favorite-card button {
+    font-size: 18px;
+    background-color: var(--foreground);
+    border-radius: 20px;
+    padding: 10px 20px;
+    border: 1px solid black;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.favorite-card button:hover {
+    background-color: var(--background);
+    color: white;
+}
+
+.favorites-body {
+    text-align: center;
+}
+
+#favoritesContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.favorites-body h1 {
+    text-decoration: underline;
+    color: white;
+}
+
+.favorites-body header {
+    justify-content: space-around;
+}
+
+/* Dark Mode */
+
+/*body.dark-mode,
+.card-detail-body {
+    background-color: #302f2f;
+    color: white;
+}
+*/
+
+body.dark-mode {
+    background-color: #333;
+    color: white;
+}
+
+body.dark-mode header,
+body.dark-mode .detailsHeader {
+    background-color: #666363;
+}
+
+body.dark-mode .pokemonCard,
+body.dark-mode .pokemon-move {
+    background-color: #333;
+}
+
+body.dark-mode #returnButton,
+body.dark-mode.detailButtons {
+    background-color: white;
+    color: black;
+}
+
+body.dark-mode .type-name {
+    color: white;
+}
+
+body.dark-mode .pokemonCard,
+body.dark-mode .favorite-card {
+    background: linear-gradient(to bottom, #aba6a6 50%, #666363 50%);
+}
+
+body.dark-mode .favorite-card button {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+}
+
+body.dark-mode .favorite-card button:hover {
+    background-color: #666363;
+    color: white;
+}
+
+body.dark-mode #pokemonDetailContainer img {
+    background: linear-gradient(to bottom, #aba6a6 50%, #666363 50%);
+}
+
+body.dark-mode .pokemon-moves,
+body.dark-mode .typetextarea {
+    background-color: #4f4d4d;
 }

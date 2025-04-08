@@ -1,16 +1,17 @@
+// This import from "theme.js" is used to help change colors
+// depending on which type is chosen
+import { changeThemeForType } from './theme.js';
+
 const urlParams = new URLSearchParams(window.location.search);
 const pokemonId = urlParams.get('id');
 
-console.log("Pokemon ID:", pokemonId);
-
 const detailUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`;
 
+// This function fetches all the pokemon information needed (id)
 async function getPokemonDetail() {
     if (!pokemonId) {
         return;
     }
-
-    const detailUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`;
 
     const response = await fetch(detailUrl);
     if (response.ok) {
@@ -21,6 +22,7 @@ async function getPokemonDetail() {
     }
 }
 
+// This function fetches the pokemon move details
 async function fetchMoveDetails(moveUrl) {
     const response = await fetch(moveUrl);
     if (response.ok) {
@@ -32,6 +34,7 @@ async function fetchMoveDetails(moveUrl) {
     }
 }
 
+// This function fetches the old pokemon cries
 async function getLegacyPokemonCry(pokemonId) {
     const cryUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`;
     const response = await fetch(cryUrl);
@@ -45,6 +48,7 @@ async function getLegacyPokemonCry(pokemonId) {
     }
 }
 
+// This function fetches the latest pokemon cries
 async function getLatestPokemonCry(pokemonId) {
     const cryUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`;
     const response = await fetch(cryUrl);
@@ -58,78 +62,127 @@ async function getLatestPokemonCry(pokemonId) {
     }
 }
 
+//////////////////* Pokemon Detail Cards *//////////////////////
 
+// This is the function that creates the entire details page body
 async function displayPokemonDetails(pokemonData) {
     const container = document.querySelector('#pokemonDetailContainer');
 
+    const pokemonType = pokemonData.types[0].type.name;
 
-    const pokedexButton = document.createElement('button');
-    pokedexButton.textContent = 'View Pokédex Entry';
-    pokedexButton.classList.add('button');
+    changeThemeForType(pokemonType);
 
+    const header = document.createElement('header');
+    header.classList.add('detailsHeader');
+    container.appendChild(header);
 
-    const nameParts = pokemonData.name.split('-');
-    let normalizedName = nameParts[0];
-    if (nameParts[1] === 'mega' || nameParts[1] === 'primal') {
-        normalizedName += `/${nameParts[1]}`;
-        if (nameParts[2]) {
-            normalizedName += `-${nameParts[2]}`;
-        }
+    const darkModeButton = document.createElement('button');
+    darkModeButton.textContent = 'Dark Mode';
+    darkModeButton.setAttribute('id', 'darkMode');
+    darkModeButton.classList.add('detailButtons');
+    header.appendChild(darkModeButton);
+
+    // This line checks if dark mode is enabled in localStorage
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+    // This function toggles dark mode
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+
+        const currentMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', currentMode);
+
+        darkModeButton.textContent = currentMode ? 'Light Mode' : 'Dark Mode';
     }
-    pokedexButton.onclick = () => {
-        window.open(`https://pokemondb.net/pokedex/${normalizedName}`, '_blank');
-    };
 
-    container.appendChild(pokedexButton);
+    // This conditional statement changes the button text
+    // whenever light or dark mode is selected
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        darkModeButton.textContent = 'Light Mode';
+    } else {
+        darkModeButton.textContent = 'Dark Mode';
+    }
 
-    // Foavorite button to add a pokemon to favorites
+    darkModeButton.addEventListener('click', toggleDarkMode);
+
+    // This line creates favorite button to add a pokemon to favorites
     const favoriteButton = document.createElement('button');
     favoriteButton.textContent = 'Add to Favorites';
-    favoriteButton.classList.add('button');
+    favoriteButton.classList.add('detailButtons');
     favoriteButton.onclick = () => addToFavorites(pokemonData);
-    container.appendChild(favoriteButton);
+    header.appendChild(favoriteButton);
 
-    // Creates and displays pokemon names
-    const name = document.createElement('h2');
+    // This line creates and displays pokemon names
+    const name = document.createElement('h1');
     const nameCap = pokemonData.name.replace(/\b\w/g, char => char.toUpperCase());
     name.textContent = nameCap;
-    container.appendChild(name);
+    header.appendChild(name);
 
-    // Creates and display pokemon images
+    // This line creates view favorite button to view favorite pokemon
+    const viewFavorites = document.createElement('button');
+    viewFavorites.textContent = 'View Your Favorite Pokémon';
+    viewFavorites.setAttribute('id', 'viewFavoritesbutton');
+    viewFavorites.classList.add('detailButtons');
+    header.appendChild(viewFavorites)
+
+    viewFavorites.addEventListener('click', navigateToFavorites);
+
+    // This line creates pokedex button to view that pokemons
+    // official pokedex information
+    const pokedexButton = document.createElement('button');
+    pokedexButton.textContent = 'View Pokédex Entry';
+    pokedexButton.classList.add('detailButtons');
+    pokedexButton.addEventListener('click', () => {
+        const pokedexUrl = `https://pokemondb.net/pokedex/${pokemonData.name}`;
+        window.open(pokedexUrl, '_blank');
+    });
+
+    header.appendChild(pokedexButton);
+
+    // This line creates a "return to types" button
+    const returnTypesButton = document.createElement('button');
+    returnTypesButton.textContent = 'Return to Types';
+    returnTypesButton.classList.add('detailButtons');
+    container.appendChild(returnTypesButton)
+
+    returnTypesButton.addEventListener('click', navigateToHome);
+
+    // This line creates and displays the front sprite
     const sprites = pokemonData.sprites;
     const frontDefaultImg = createSpriteImage(sprites.front_default, 'Front Default');
     if (frontDefaultImg) {
         container.appendChild(frontDefaultImg);
     }
 
-    // Creates and display the back sprite
+    // This line creates and displays the back sprite
     const backDefaultImg = createSpriteImage(sprites.back_default, 'Back Default');
     if (backDefaultImg) {
         container.appendChild(backDefaultImg);
     }
 
-    // Creates and display the shiny front sprite
+    // This line creates and displays the shiny front sprite
     const shinyFrontImg = createSpriteImage(sprites.front_shiny, 'Shiny Front');
     if (shinyFrontImg) {
         container.appendChild(shinyFrontImg);
     }
 
-    // Creates and display the shiny back sprite
+    // This line creates and displays the shiny back sprite
     const shinyBackImg = createSpriteImage(sprites.back_shiny, 'Shiny Back');
     if (shinyBackImg) {
         container.appendChild(shinyBackImg);
     }
 
-    // Displays pokemon details for the details page
+    // This line displays pokemon details for the details page
     const types = pokemonData.types.map(type => type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1)).join(', ');
     const typesDiv = document.createElement('div');
     typesDiv.classList.add('typetextarea');
-    const typesP = document.createElement('h4');
-    typesP.textContent = `Types: ${types}`;
+    const typesP = document.createElement('h2');
+    typesP.textContent = `Type(s): ${types}`;
     container.appendChild(typesDiv);
     typesDiv.appendChild(typesP);
 
-    // Fetch and display abilities
+    // this line fetches and displays abilities
     const abilities = pokemonData.abilities;
     const abilityPromises = abilities.map(async ability => {
         const abilityDetails = await fetchAbilityDetails(ability.ability.url);
@@ -139,15 +192,11 @@ async function displayPokemonDetails(pokemonData) {
         typesDiv.appendChild(abilityDiv);
     });
 
-    // Allows dom to wait for all abilities to be displayed
+    // this line allows dom to wait for all abilities to be displayed
     await Promise.all(abilityPromises);
 
-    // Display moves with details
     const movesDiv = document.createElement('div');
     movesDiv.classList.add('pokemon-moves');
-    const movesTitle = document.createElement('h3');
-    movesTitle.textContent = 'Moves:';
-    movesDiv.appendChild(movesTitle);
 
     for (const move of pokemonData.moves.slice(0, 10)) {
         const moveData = await fetchMoveDetails(move.move.url);
@@ -155,7 +204,7 @@ async function displayPokemonDetails(pokemonData) {
             const moveDiv = document.createElement('div');
             moveDiv.classList.add('pokemon-move');
 
-            const moveName = document.createElement('h4');
+            const moveName = document.createElement('h2');
             moveName.textContent = move.move.name.replace(/\b\w/g, char => char.toUpperCase());
             moveDiv.appendChild(moveName);
 
@@ -183,9 +232,13 @@ async function displayPokemonDetails(pokemonData) {
         }
     }
 
+    const criesDiv = document.createElement('div')
+    criesDiv.classList.add('criesDiv');
+
+    // This line creates the old pokemon cry button
     const cryButtonLegacy = document.createElement('button');
     cryButtonLegacy.textContent = 'Hear Old Pokémon Cry';
-    cryButtonLegacy.classList.add('button');
+    cryButtonLegacy.classList.add('detailButtons', 'criesButton');
     cryButtonLegacy.onclick = async () => {
         const cryUrl = await getLegacyPokemonCry(pokemonData.id);
         if (cryUrl) {
@@ -196,11 +249,12 @@ async function displayPokemonDetails(pokemonData) {
         }
     };
 
-    container.appendChild(cryButtonLegacy);
+    criesDiv.appendChild(cryButtonLegacy);
 
+    // This line creates the latest pokemon cry button
     const cryButtonLatest = document.createElement('button');
     cryButtonLatest.textContent = 'Hear New Pokémon Cry';
-    cryButtonLatest.classList.add('button');
+    cryButtonLatest.classList.add('detailButtons', 'criesButton');
     cryButtonLatest.onclick = async () => {
         const cryUrl = await getLatestPokemonCry(pokemonData.id);
         if (cryUrl) {
@@ -211,15 +265,98 @@ async function displayPokemonDetails(pokemonData) {
         }
     };
 
-    container.appendChild(cryButtonLatest);
+    criesDiv.appendChild(cryButtonLatest);
 
+    container.appendChild(criesDiv);
+
+    const movesTitle = document.createElement('h1');
+    movesTitle.textContent = 'Top 10 Moves:';
+    container.appendChild(movesTitle);
 
     container.appendChild(movesDiv);
 
+    const speciesUrl = pokemonData.species.url;
+    const evolutionChainData = await getEvolutionChain(speciesUrl);
+    const addedEvolutions = new Set();
 
+    const evolutionTitle = document.createElement('h1');
+    evolutionTitle.textContent = 'Evolution:';
+    container.appendChild(evolutionTitle);
+
+    // This conditional statement was created to help
+    // make pokemon evolutions accurate by calling and
+    // using the processEvolutionChain function
+    if (evolutionChainData) {
+        const evolutionContainer = document.createElement('div');
+        evolutionContainer.classList.add('evolution-chain');
+
+        let currentStage = evolutionChainData.chain;
+
+        // This conditional statement checks if the pokemon can evolve or not
+        if (!currentStage.evolves_to || currentStage.evolves_to.length === 0) {
+            const noEvolutionMessage = document.createElement('p');
+            noEvolutionMessage.textContent = `${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)} does not evolve.`;
+            evolutionContainer.appendChild(noEvolutionMessage);
+        } else {
+            await processEvolutionChain(currentStage, evolutionContainer, addedEvolutions);
+        }
+
+        container.appendChild(evolutionContainer);
+    }
 }
 
-// Function to get more detailed ability info
+//////////////////////////////////////////
+
+//////////////////* Miscellaneous *//////////////////////
+
+// This function was created to help make Pokemon chains
+// accurate, because there are pokemon out there with many
+// evolutions when compared to others (Eevee was mainly the cause
+// of issues, because Eevee has 8 evolutions in total)
+async function processEvolutionChain(evolutionStep, container, addedEvolutions) {
+    // This line skips the evolution if already added to avoid duplicates
+    if (addedEvolutions.has(evolutionStep.species.name)) {
+        return;
+    }
+
+    const evolutionStepDiv = document.createElement('div');
+    evolutionStepDiv.classList.add('evolution-step');
+
+    const pokemonId = evolutionStep.species.url.split('/')[6];
+    const evolutionSpriteUrl = await getPokemonSprite(pokemonId);
+
+    // This line adds the evolution step to the container 
+    // if the sprite exists
+    if (evolutionSpriteUrl) {
+        const evolutionSprite = document.createElement('img');
+        evolutionSprite.src = evolutionSpriteUrl;
+        evolutionSprite.alt = evolutionStep.species.name;
+        evolutionSprite.classList.add('pokemon-evolution-sprite');
+        evolutionStepDiv.appendChild(evolutionSprite);
+
+        const evolutionName = document.createElement('span');
+        evolutionName.textContent = evolutionStep.species.name.charAt(0).toUpperCase() + evolutionStep.species.name.slice(1);
+        evolutionStepDiv.appendChild(evolutionName);
+
+        evolutionStepDiv.addEventListener('click', () => {
+            window.location.href = `card-detail.html?id=${pokemonId}`;
+        });
+
+        // This line marks the evolution as added to, again, avoid duplicates
+        addedEvolutions.add(evolutionStep.species.name);
+
+        container.appendChild(evolutionStepDiv);
+    }
+
+    // This line checks if there are any more evolutions to add
+    if (evolutionStep.evolves_to && evolutionStep.evolves_to.length > 0) {
+        for (const nextEvolution of evolutionStep.evolves_to) {
+            await processEvolutionChain(nextEvolution, container, addedEvolutions);
+        }
+    }
+}
+
+// This function grabs detailed ability info
 async function fetchAbilityDetails(abilityUrl) {
     const response = await fetch(abilityUrl);
     if (response.ok) {
@@ -233,7 +370,7 @@ async function fetchAbilityDetails(abilityUrl) {
     }
 }
 
-// Function creates pokemon images and utilixes lazy load
+// This function creates pokemon images and utilizes lazy load
 function createSpriteImage(src, alt) {
     if (!src) return null;
     const img = document.createElement('img');
@@ -244,7 +381,7 @@ function createSpriteImage(src, alt) {
     return img;
 }
 
-// Function to add pokemon to favorites usong local storage
+// This function adds pokemon to favorites usong local storage
 function addToFavorites(pokemonData) {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
@@ -254,7 +391,7 @@ function addToFavorites(pokemonData) {
         sprite: pokemonData.sprites.front_default,
     };
 
-    // This checks for pokemon in the favorites already to prevent duplicates
+    // This line checks for pokemon in the favorites already to prevent duplicates
     const isAlreadyFavorite = favorites.some(fav => fav.id === pokemonData.id);
     if (!isAlreadyFavorite) {
         favorites.push(favoritePokemon);
@@ -264,5 +401,43 @@ function addToFavorites(pokemonData) {
         alert(`${pokemonData.name} already exists in your favorites.`);
     }
 }
+
+// This function leads the user to the favorites page
+function navigateToFavorites() {
+    window.location.href = 'favorites.html';
+}
+
+// This function leads the user to the home page
+function navigateToHome() {
+    window.location.href = 'index.html';
+}
+
+// This function grabs the data needed for the evolution chain
+async function getEvolutionChain(pokemonSpeciesUrl) {
+    const response = await fetch(pokemonSpeciesUrl);
+    if (response.ok) {
+        const speciesData = await response.json();
+        const evolutionChainUrl = speciesData.evolution_chain.url;
+        const evolutionChainResponse = await fetch(evolutionChainUrl);
+        if (evolutionChainResponse.ok) {
+            const evolutionChainData = await evolutionChainResponse.json();
+            return evolutionChainData;
+        }
+    }
+    console.error('Failed to fetch evolution chain');
+    return null;
+}
+
+// This function grabs the pokemon sprites
+async function getPokemonSprite(pokemonId) {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`);
+    if (response.ok) {
+        const pokemonData = await response.json();
+        return pokemonData.sprites.front_default;
+    }
+    return null;
+}
+
+//////////////////////////////////////////
 
 getPokemonDetail();

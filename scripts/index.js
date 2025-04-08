@@ -1,21 +1,28 @@
-const url = "https://pokeapi.co/api/v2/pokemon?limit=100000";
+// This import from "theme.js" is used to help change colors
+// depending on which type is chosen
+import { changeThemeForType } from './theme.js';
+
 let results = null;
 let selectedType = null;
 let debounceTimeout;
+const detailUrl = "https://pokeapi.co/api/v2/pokemon?limit=100000";
 
 // consts for grabbing ID's in HTML
 const returnButton = document.getElementById('returnButton');
+const info = document.getElementById('info');
 const pokemonDisplayContainer = document.getElementById('pokemonDisplayContainer');
 const typesContainer = document.querySelector('.typesContainer');
 const pokemonDisplay = document.getElementById('pokemonDisplay');
 const searchBar = document.getElementById('searchBar');
 
 // Function for fetching Pokémon URL
-async function getPokemon(url) {
-    const response = await fetch(url);
+async function getPokemonDetail() {
+    const response = await fetch(detailUrl);
     if (response.ok) {
         const data = await response.json();
         pokemonCards(data);
+    } else {
+        console.error('Failed to fetch Pokémon details');
     }
 }
 
@@ -29,6 +36,8 @@ function filterPokemonByName(query) {
 
     return filteredResults;
 }
+
+//////////////////* Pokemon Cards *//////////////////////
 
 // Function for displaying Pokémon data
 function pokemonCards(data) {
@@ -49,6 +58,7 @@ function pokemonCards(data) {
         returnButton.classList.remove('hidden');
         searchBar.classList.remove('hidden');
         returnButton.style.color = 'black';
+        info.classList.add('hidden');
     }
 
     changeThemeForType(selectedType);
@@ -95,13 +105,16 @@ function pokemonCards(data) {
     });
 }
 
-// Event listener for selecting Pokémon types
+//////////////////////////////////////////
+
+//////////////////* Miscellaneous *//////////////////////
+
+// Event listener for selecting Pokemon types
 typesContainer.addEventListener('click', (event) => {
     if (event.target.tagName === 'IMG') {
         selectedType = event.target.alt.toLowerCase();
-        console.log("Selected Type: ", selectedType);
 
-        getPokemon(url);
+        getPokemonDetail();
     }
 });
 
@@ -111,14 +124,20 @@ searchBar.addEventListener('input', () => {
     clearTimeout(debounceTimeout);
 
     debounceTimeout = setTimeout(() => {
-        getPokemon(url);
+        getPokemonDetail();
     }, 300);
 });
 
 // Event listener for showing and hiding certain elements
 // when the types are interacted with
 returnButton.addEventListener('click', () => {
+    const h1 = document.querySelector('h1');
+    if (h1) {
+        h1.style.color = 'white';
+    }
+
     typesContainer.classList.remove('hidden');
+    info.classList.remove('hidden');
     pokemonDisplayContainer.style.display = 'none';
     returnButton.classList.add('hidden');
     searchBar.classList.add('hidden');
@@ -131,80 +150,50 @@ returnButton.addEventListener('click', () => {
     document.body.style.color = 'white';
 });
 
-function changeThemeForType(type) {
-    if (type === 'water') {
-        document.documentElement.style.setProperty('--background', '#4f72d1');
-        document.documentElement.style.setProperty('--foreground', '#d1e5f1');
-        document.body.style.color = 'black';
-    } else if (type === 'grass') {
-        document.documentElement.style.setProperty('--background', '#4fd169');
-        document.documentElement.style.setProperty('--foreground', '#d1f1df');
-        document.body.style.color = 'black';
-    } else if (type === 'electric') {
-        document.documentElement.style.setProperty('--background', '#eef567');
-        document.documentElement.style.setProperty('--foreground', '#f7faed');
-        document.body.style.color = 'black';
-    } else if (type === 'normal' || type === 'steel') {
-        document.documentElement.style.setProperty('--background', '#a8a8a8');
-        document.documentElement.style.setProperty('--foreground', '#f2f2f2');
-        document.body.style.color = 'black';
-    } else if (type === 'ice') {
-        document.documentElement.style.setProperty('--background', '#5efff4');
-        document.documentElement.style.setProperty('--foreground', '#e0fcff');
-        document.body.style.color = 'black';
-    } else if (type === 'fighting') {
-        document.documentElement.style.setProperty('--background', '#f7ae40');
-        document.documentElement.style.setProperty('--foreground', '#fff5e6');
-        document.body.style.color = 'black';
-    } else if (type === 'poison') {
-        document.documentElement.style.setProperty('--background', '#a44bdb');
-        document.documentElement.style.setProperty('--foreground', '#f9f0ff');
-        document.body.style.color = 'black';
-    } else if (type === 'ground') {
-        document.documentElement.style.setProperty('--background', '#b38054');
-        document.documentElement.style.setProperty('--foreground', '#d9cfc7');
-        document.body.style.color = 'black';
-    } else if (type === 'flying') {
-        document.documentElement.style.setProperty('--background', '#abcedb');
-        document.documentElement.style.setProperty('--foreground', '#e9f1f5');
-        document.body.style.color = 'black';
-    } else if (type === 'psychic') {
-        document.documentElement.style.setProperty('--background', '#d951e8');
-        document.documentElement.style.setProperty('--foreground', '#f0c6f5');
-        document.body.style.color = 'black';
-    } else if (type === 'bug') {
-        document.documentElement.style.setProperty('--background', '#92e89e');
-        document.documentElement.style.setProperty('--foreground', '#d5f5d9');
-        document.body.style.color = 'black';
-    } else if (type === 'rock') {
-        document.documentElement.style.setProperty('--background', '#a3a293');
-        document.documentElement.style.setProperty('--foreground', '#f2f2e9');
-        document.body.style.color = 'black';
-    } else if (type === 'ghost') {
-        document.documentElement.style.setProperty('--background', '#80359c');
-        document.documentElement.style.setProperty('--foreground', '#d6bae0');
-        document.body.style.color = 'white';
-        returnButton.style.color = 'white';
-    } else if (type === 'dragon') {
-        document.documentElement.style.setProperty('--background', '#e9ebbc');
-        document.documentElement.style.setProperty('--foreground', '#fffff5');
-        document.body.style.color = 'black';
-    } else if (type === 'dark') {
-        document.documentElement.style.setProperty('--background', '#404040');
-        document.documentElement.style.setProperty('--foreground', '#b3b3b3');
-        document.body.style.color = 'white';
-        returnButton.style.color = 'white';
-    } else if (type === 'fairy') {
-        document.documentElement.style.setProperty('--background', '#f56ed1');
-        document.documentElement.style.setProperty('--foreground', '#ffdef6');
-        document.body.style.color = 'black';
-        returnButton.style.color = 'black';
-    } else {
-        document.documentElement.style.setProperty('--background', '#B60102');
-        document.documentElement.style.setProperty('--foreground', '#ffe5e6');
-        document.body.style.color = 'white';
-        returnButton.style.color = 'white';
+// This function leads the user to the favorites page
+function navigateToFavorites() {
+    window.location.href = 'favorites.html';
+}
+
+// This line creates an event listener for the favorites button
+const viewFavoritesButton = document.getElementById('viewFavoritesbutton');
+viewFavoritesButton.addEventListener('click', navigateToFavorites);
+
+//////////////////////////////////////////
+
+
+//////////////////* Dark Mode *//////////////////////
+
+const darkModeButton = document.getElementById('darkMode');
+
+// This line checks if dark mode is enabled in localStorage
+const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+// This function toggles dark mode
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+
+    const currentMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', currentMode);
+
+    darkModeButton.textContent = currentMode ? 'Light Mode' : 'Dark Mode';
+
+    if (!currentMode) {
+        changeThemeForType(selectedType);
     }
 }
 
-getPokemon(url);
+// This conditional statement changes the button text
+// whenever light or dark mode is selected
+if (isDarkMode) {
+    document.body.classList.add('dark-mode');
+    darkModeButton.textContent = 'Light Mode';
+} else {
+    darkModeButton.textContent = 'Dark Mode';
+}
+
+darkModeButton.addEventListener('click', toggleDarkMode);
+
+//////////////////////////////////////////
+
+getPokemonDetail();
