@@ -196,4 +196,22 @@ darkModeButton.addEventListener('click', toggleDarkMode);
 
 //////////////////////////////////////////
 
+//////////////////* Info Dialog Popup *//////////////////////
+
+const infoDialog = document.getElementById('infoDialog');
+const showButton = document.getElementById('info');
+const closeButton = document.getElementById('closeButton');
+
+// "Show the dialog" button opens the dialog modally
+showButton.addEventListener("click", () => {
+    infoDialog.showModal();
+});
+
+// "Close" button closes the dialog
+closeButton.addEventListener("click", () => {
+    infoDialog.close();
+});
+
+//////////////////////////////////////////
+
 getPokemonDetail();
