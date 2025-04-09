@@ -37,7 +37,7 @@ function filterPokemonByName(query) {
     return filteredResults;
 }
 
-//////////////////* Pokemon Cards *//////////////////////
+/* ---------------------------Pokemon Cards----------------------------- */
 
 // Function for displaying Pokémon data
 function pokemonCards(data) {
@@ -105,9 +105,9 @@ function pokemonCards(data) {
     });
 }
 
-//////////////////////////////////////////
+/* -------------------------------------------------------- */
 
-//////////////////* Miscellaneous *//////////////////////
+/* ---------------------------Miscellaneous----------------------------- */
 
 // Event listener for selecting Pokemon types
 typesContainer.addEventListener('click', (event) => {
@@ -159,10 +159,10 @@ function navigateToFavorites() {
 const viewFavoritesButton = document.getElementById('viewFavoritesbutton');
 viewFavoritesButton.addEventListener('click', navigateToFavorites);
 
-//////////////////////////////////////////
+/* -------------------------------------------------------- */
 
 
-//////////////////* Dark Mode *//////////////////////
+/* ---------------------------Dark Mode----------------------------- */
 
 const darkModeButton = document.getElementById('darkMode');
 
@@ -194,9 +194,9 @@ if (isDarkMode) {
 
 darkModeButton.addEventListener('click', toggleDarkMode);
 
-//////////////////////////////////////////
+/* -------------------------------------------------------- */
 
-//////////////////* Info Dialog Popup *//////////////////////
+/* ---------------------------Info Dialog Popup----------------------------- */
 
 const infoDialog = document.getElementById('infoDialog');
 const showButton = document.getElementById('info');
@@ -212,6 +212,6 @@ closeButton.addEventListener("click", () => {
     infoDialog.close();
 });
 
-//////////////////////////////////////////
+/* -------------------------------------------------------- */
 
 getPokemonDetail();

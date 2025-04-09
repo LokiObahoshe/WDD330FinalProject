@@ -62,7 +62,7 @@ async function getLatestPokemonCry(pokemonId) {
     }
 }
 
-//////////////////* Pokemon Detail Cards *//////////////////////
+/* ---------------------------Pokemon Detail Cards----------------------------- */
 
 // This is the function that creates the entire details page body
 async function displayPokemonDetails(pokemonData) {
@@ -305,9 +305,9 @@ async function displayPokemonDetails(pokemonData) {
     }
 }
 
-//////////////////////////////////////////
+/* -------------------------------------------------------- */
 
-//////////////////* Miscellaneous *//////////////////////
+/* ---------------------------Miscellaneous----------------------------- */
 
 // This function was created to help make Pokemon chains
 // accurate, because there are pokemon out there with many
@@ -438,6 +438,6 @@ async function getPokemonSprite(pokemonId) {
     return null;
 }
 
-//////////////////////////////////////////
+/* -------------------------------------------------------- */
 
 getPokemonDetail();

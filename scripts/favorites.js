@@ -87,7 +87,7 @@ returnToTypesButton.addEventListener('click', () => {
     window.location.href = 'index.html';
 });
 
-//////////////////* Dark Mode *//////////////////////
+/* ---------------------------Dark Mode----------------------------- */
 
 const darkModeButton = document.getElementById('darkMode');
 
@@ -115,4 +115,4 @@ if (isDarkMode) {
 
 darkModeButton.addEventListener('click', toggleDarkMode);
 
-//////////////////////////////////////////
+/* -------------------------------------------------------- */
