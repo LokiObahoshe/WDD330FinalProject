@@ -24,8 +24,7 @@ main {
 }
 
 header {
-    position: relative;
-    display: flex;
+    display: block;
     align-items: center;
     background-color: var(--background);
     padding: 20px;
@@ -33,12 +32,12 @@ header {
     text-align: center;
     height: 150px;
     margin-bottom: 50px;
+    height: auto;
+    overflow: hidden;
 }
 
-header div {
-    text-align: center;
-    margin: 10px auto;
-    cursor: pointer;
+header h1 {
+    padding: 30px;
 }
 
 h1 {
@@ -64,31 +63,27 @@ a {
     cursor: pointer;
     color: black;
     margin: 0 auto;
+    transition: transform 0.3s;
 }
 
 #info {
     margin-bottom: 20px;
-}
-
-.detailButtons:hover {
-    transform: scale(1.1);
-}
-
-.detailsHeader {
-    justify-content: space-around;
+    width: 20%;
 }
 
 #pokemonDisplay {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     grid-gap: 20px;
     padding: 10px;
 }
 
 .typesContainer {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     text-align: center;
+    width: 70%;
+    margin: 0 auto;
 }
 
 .typesContainer div:hover .type-name {
@@ -188,40 +183,86 @@ a {
 }
 
 dialog {
-    border: 1px solid rgb(0 0 0 / 0.1);
+    border: 10px solid rgb(0 0 0 / 0.1);
     border-radius: .25rem;
     padding: 1rem;
     background-color: #fff;
     box-shadow: 0 0 3rem #777;
-    width: 100%;
-    height: 80%;
-    max-width: 600px;
+    width: 300px;
+    height: auto;
+    max-height: 700px;
+    min-height: 500px;
+    max-width: 700px;
     margin: 0;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    border-radius: 10%;
+    background-color: var(--background);
+    color: white;
+    text-align: center;
+}
+
+dialog .dialogContent {
+    border: 5px solid var(--foreground);
+    border-radius: 5%;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    height: 100%;
 }
 
 dialog p {
-    font-size: 40px;
+    font-size: 20px;
+    margin: 10px;
+}
+
+dialog button {
+    position: absolute;
+    top: 23px;
+    right: 23px;
+    padding: .5rem 1rem;
+    border: 1px solid rgb(0 0 0 / 0.1);
+    background-color: var(--foreground);
 }
 
 ::backdrop {
     background-color: rgb(0 0 0 / 0.5);
 }
 
-/* Details Page */
+#closeButton {
+    border: none;
+    background-color: var(--foreground);
+    width: 90px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: black;
+    margin: 0 auto;
+    transition: transform 0.3s;
+}
+
+/* ---------------------------Small Details Page----------------------------- */
+
+.detailsHeader {
+    justify-content: space-around;
+}
+
+.detailsHeader button {
+    margin: 20px auto;
+}
 
 #pokemonDetailContainer img {
     width: 250px;
     height: auto;
     margin: 20px;
     background: linear-gradient(to bottom, var(--foreground) 50%, var(--background) 50%);
-}
-
-#pokemonDetailContainer img:hover {
-    transform: scale(1.05);
+    border-radius: 30%;
 }
 
 
@@ -276,7 +317,7 @@ dialog p {
 
 .pokemon-moves {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     width: 90%;
 }
 
@@ -290,7 +331,8 @@ dialog p {
     margin: 10px auto;
     border: 1px solid black;
     padding: 10px;
-    background-color: var(--background)
+    background-color: var(--background);
+    border-radius: 20px;
 }
 
 .card-detail-body h1 {
@@ -304,12 +346,12 @@ dialog p {
 
 .criesDiv {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 35%;
+    grid-template-columns: 1fr;
+    width: 100%;
     margin: 0 auto;
 }
 
-/* Favorites Page */
+/* ---------------------------Small Favorites Page----------------------------- */
 
 .favorite-card {
     margin: 80px auto;
@@ -346,7 +388,7 @@ dialog p {
 
 #favoritesContainer {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(1, 1fr);
 }
 
 .favorites-body h1 {
@@ -367,14 +409,7 @@ dialog p {
     transform: translate(-50%, -50%);
 }
 
-/* Dark Mode */
-
-/*body.dark-mode,
-.card-detail-body {
-    background-color: #302f2f;
-    color: white;
-}
-*/
+/* ---------------------------Dark Mode----------------------------- */
 
 body.dark-mode {
     background-color: #333;
@@ -392,7 +427,8 @@ body.dark-mode .pokemon-move {
 }
 
 body.dark-mode #returnButton,
-body.dark-mode.detailButtons {
+body.dark-mode .detailButtons,
+body.dark-mode #closeButton {
     background-color: white;
     color: black;
 }
@@ -422,6 +458,127 @@ body.dark-mode #pokemonDetailContainer img {
 }
 
 body.dark-mode .pokemon-moves,
-body.dark-mode .typetextarea {
+body.dark-mode .typetextarea,
+body.dark-mode dialog {
     background-color: #4f4d4d;
+}
+
+/* ---------------------------Medium Screen Size----------------------------- */
+
+@media screen and (min-width: 641px) {
+
+    header {
+        display: flex;
+        flex-direction: row;
+        height: 180px;
+    }
+
+    dialog {
+        width: 500px;
+    }
+
+    dialog p {
+        font-size: 30px;
+    }
+
+    .typesContainer {
+        grid-template-columns: repeat(3, 1fr);
+        width: 80%;
+    }
+
+    #info {
+        width: 10%;
+    }
+
+    #pokemonDisplay {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #pokemonDisplayContainer {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    /* ---------------------------Medium Details Page----------------------------- */
+
+    .detailsHeader button {
+        margin: 5px;
+        overflow: hidden;
+    }
+
+    .detailButtons {
+        height: auto;
+        min-height: 50px;
+        padding: 10px;
+    }
+
+    .criesDiv {
+        grid-template-columns: repeat(2, 1fr);
+        width: 60%;
+        margin: 0 auto;
+    }
+
+    .pokemon-moves {
+        grid-template-columns: repeat(2, 1fr);
+        width: 90%;
+    }
+
+    /* ---------------------------Medium Favorites Page----------------------------- */
+
+    #favoritesContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ---------------------------Large Screen Size----------------------------- */
+
+@media screen and (min-width: 1025px) {
+
+    header {
+        display: flex;
+        flex-direction: row;
+        height: 180px;
+    }
+
+    dialog {
+        width: 100%;
+    }
+
+    .typesContainer {
+        grid-template-columns: repeat(6, 1fr);
+        width: 100%;
+    }
+
+    #pokemonDisplay {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    #info {
+        width: 8%;
+    }
+
+    .detailButtons:hover {
+        transform: scale(1.1);
+    }
+
+    #pokemonDisplayContainer {
+        width: 100%;
+    }
+
+    /* ---------------------------Large Details Page----------------------------- */
+
+    .criesDiv {
+        grid-template-columns: repeat(2, 1fr);
+        width: 35%;
+    }
+
+    #pokemonDetailContainer img:hover {
+        transform: scale(1.05);
+    }
+
+    /* ---------------------------Large Favorites Page----------------------------- */
+
+    #favoritesContainer {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
