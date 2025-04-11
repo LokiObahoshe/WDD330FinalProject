@@ -71,6 +71,10 @@ a {
     width: 20%;
 }
 
+.pokepedia {
+    color: white;
+}
+
 #pokemonDisplay {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -260,6 +264,7 @@ dialog button {
 #pokemonDetailContainer img {
     width: 250px;
     height: auto;
+    min-height: 250px;
     margin: 20px;
     background: linear-gradient(to bottom, var(--foreground) 50%, var(--background) 50%);
     border-radius: 30%;
@@ -349,6 +354,31 @@ dialog button {
     grid-template-columns: 1fr;
     width: 100%;
     margin: 0 auto;
+}
+
+.caught-container {
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+
+#caughtMessage {
+    color: green;
+    margin-top: 10px;
+}
+
+input[type="checkbox"] {
+    margin: 10px;
+}
+
+.caught-counter {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 8px 12px;
+    border-radius: 6px;
+    z-index: 1000;
 }
 
 /* ---------------------------Small Favorites Page----------------------------- */
@@ -461,6 +491,15 @@ body.dark-mode .pokemon-moves,
 body.dark-mode .typetextarea,
 body.dark-mode dialog {
     background-color: #4f4d4d;
+}
+
+body.dark-mode #caughtMessage {
+    color: greenyellow;
+    margin-top: 10px;
+}
+
+body.dark-mode .caught-counter {
+    background-color: rgba(0, 0, 0, 0.50);
 }
 
 /* ---------------------------Medium Screen Size----------------------------- */

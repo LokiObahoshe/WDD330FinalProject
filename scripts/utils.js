@@ -1,3 +1,25 @@
+/* ---------------------------Pokemon Counter----------------------------- */
+
+export function updateCaughtCounter() {
+    let count = 0;
+
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('caught-') && localStorage.getItem(key) === 'true') {
+            count++;
+        }
+    }
+
+    const counterElement = document.getElementById('caughtCounter');
+    if (counterElement) {
+        counterElement.textContent = `Caught: ${count} Pokémon`;
+    }
+}
+
+/* -------------------------------------------------------- */
+
+/* ---------------------------Theme----------------------------- */
+
 export function changeThemeForType(type) {
     const returnButton = document.querySelector('#returnButton');
     const h1 = document.querySelector('h1');

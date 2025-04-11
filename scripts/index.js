@@ -1,6 +1,6 @@
 // This import from "theme.js" is used to help change colors
 // depending on which type is chosen
-import { changeThemeForType } from './theme.js';
+import { changeThemeForType, updateCaughtCounter } from './utils.js';
 
 let results = null;
 let selectedType = null;
@@ -40,17 +40,15 @@ function filterPokemonByName(query) {
 /* ---------------------------Pokemon Cards----------------------------- */
 
 // Function for displaying Pokémon data
-function pokemonCards(data) {
+async function pokemonCards(data) {
     results = data;
 
-    // Just like the event listener further below, this
-    // conditional statement shows and hides certain elements
-    // on the HTML page
     if (!selectedType) {
         typesContainer.classList.remove('hidden');
         pokemonDisplayContainer.style.display = 'none';
         returnButton.classList.add('hidden');
         searchBar.classList.add('hidden');
+        return;
     }
     else {
         typesContainer.classList.add('hidden');
@@ -62,20 +60,21 @@ function pokemonCards(data) {
     }
 
     changeThemeForType(selectedType);
-
     pokemonDisplay.innerHTML = '';
 
     const searchQuery = document.getElementById('searchBar').value.toLowerCase();
     const filteredResults = filterPokemonByName(searchQuery);
 
-    filteredResults.forEach((pokemon) => {
+    const fragment = document.createDocumentFragment();
+
+    // These following lines create an array of promises
+    // This was created to prevent total blocking time
+    const cardPromises = filteredResults.map(pokemon =>
         fetch(pokemon.url)
             .then(response => response.json())
             .then(pokemonData => {
                 const pokemonTypes = pokemonData.types.map(type => type.type.name);
-                if (!pokemonTypes.includes(selectedType)) {
-                    return;
-                }
+                if (!pokemonTypes.includes(selectedType)) return null;
 
                 const link = document.createElement('a');
                 link.href = `./card-detail.html?id=${pokemonData.id}`;
@@ -99,10 +98,21 @@ function pokemonCards(data) {
                     div.appendChild(img);
                 }
 
-                document.getElementById('pokemonDisplay').appendChild(link);
+                return link;
             })
-            .catch(error => console.error("Error fetching Pokémon details:", error));
-    });
+            .catch(error => {
+                console.error("Error fetching Pokémon details:", error);
+                return null;
+            })
+    );
+
+    // This line waits for all cards to be built
+    const cards = await Promise.all(cardPromises);
+
+    // This line only appends valid cards
+    cards.filter(Boolean).forEach(card => fragment.appendChild(card));
+
+    pokemonDisplay.appendChild(fragment);
 }
 
 /* -------------------------------------------------------- */
@@ -215,3 +225,4 @@ closeButton.addEventListener("click", () => {
 /* -------------------------------------------------------- */
 
 getPokemonDetail();
+updateCaughtCounter();

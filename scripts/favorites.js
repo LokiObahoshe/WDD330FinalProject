@@ -1,3 +1,5 @@
+import { updateCaughtCounter } from './utils.js';
+
 const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 const favoritesContainer = document.querySelector('#favoritesContainer');
 
@@ -116,3 +118,5 @@ if (isDarkMode) {
 darkModeButton.addEventListener('click', toggleDarkMode);
 
 /* -------------------------------------------------------- */
+
+updateCaughtCounter()
