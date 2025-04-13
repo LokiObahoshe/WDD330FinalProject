@@ -433,10 +433,6 @@ input[type="checkbox"] {
 .empty-message {
     grid-column: span 4;
     font-size: 50px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 /* ---------------------------Dark Mode----------------------------- */
@@ -619,5 +615,12 @@ body.dark-mode .caught-counter {
 
     #favoritesContainer {
         grid-template-columns: repeat(4, 1fr);
+    }
+
+    .empty-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }
