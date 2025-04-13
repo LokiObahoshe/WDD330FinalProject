@@ -1,6 +1,6 @@
 // This import from "theme.js" is used to help change colors
 // depending on which type is chosen
-import { changeThemeForType } from './theme.js';
+import { changeThemeForType, updateCaughtCounter } from './utils.js';
 
 const urlParams = new URLSearchParams(window.location.search);
 const pokemonId = urlParams.get('id');
@@ -62,7 +62,7 @@ async function getLatestPokemonCry(pokemonId) {
     }
 }
 
-//////////////////* Pokemon Detail Cards *//////////////////////
+/* ---------------------------Pokemon Detail Cards----------------------------- */
 
 // This is the function that creates the entire details page body
 async function displayPokemonDetails(pokemonData) {
@@ -147,6 +147,46 @@ async function displayPokemonDetails(pokemonData) {
     container.appendChild(returnTypesButton)
 
     returnTypesButton.addEventListener('click', navigateToHome);
+
+    // These lines create a checkbox the user can
+    // interact with to claim if they caught the following
+    // Pokemon or not
+    const caughtContainer = document.createElement('div');
+    caughtContainer.classList.add('caught-container');
+
+    const caughtCheckbox = document.createElement('input');
+    caughtCheckbox.type = 'checkbox';
+    caughtCheckbox.id = 'caughtCheckbox';
+
+    const caughtLabel = document.createElement('label');
+    caughtLabel.htmlFor = 'caughtCheckbox';
+    caughtLabel.textContent = 'Have you caught this Pokémon?';
+
+    const caughtMessage = document.createElement('p');
+    caughtMessage.id = 'caughtMessage';
+    caughtMessage.textContent = '✅ Successfully caught!';
+    caughtMessage.style.display = 'none';
+    caughtMessage.style.fontWeight = 'bold';
+
+    caughtContainer.appendChild(caughtCheckbox);
+    caughtContainer.appendChild(caughtLabel);
+    caughtContainer.appendChild(caughtMessage);
+    container.appendChild(caughtContainer);
+
+    // These lines save the user's answer to
+    // catching the Pokemon or not using Localstorage
+    const caughtKey = `caught-${pokemonData.id}`;
+
+    const isCaught = localStorage.getItem(caughtKey) === 'true';
+    caughtCheckbox.checked = isCaught;
+    caughtMessage.style.display = isCaught ? 'block' : 'none';
+
+    caughtCheckbox.addEventListener('change', () => {
+        const caught = caughtCheckbox.checked;
+        localStorage.setItem(caughtKey, caught);
+        caughtMessage.style.display = caught ? 'block' : 'none';
+        updateCaughtCounter();
+    });
 
     // This line creates and displays the front sprite
     const sprites = pokemonData.sprites;
@@ -305,9 +345,9 @@ async function displayPokemonDetails(pokemonData) {
     }
 }
 
-//////////////////////////////////////////
+/* -------------------------------------------------------- */
 
-//////////////////* Miscellaneous *//////////////////////
+/* ---------------------------Miscellaneous----------------------------- */
 
 // This function was created to help make Pokemon chains
 // accurate, because there are pokemon out there with many
@@ -438,6 +478,7 @@ async function getPokemonSprite(pokemonId) {
     return null;
 }
 
-//////////////////////////////////////////
+/* -------------------------------------------------------- */
 
 getPokemonDetail();
+updateCaughtCounter();

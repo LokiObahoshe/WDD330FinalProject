@@ -1,3 +1,5 @@
+import { updateCaughtCounter } from './utils.js';
+
 const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 const favoritesContainer = document.querySelector('#favoritesContainer');
 
@@ -34,8 +36,12 @@ if (favorites.length === 0) {
     displayEmptyMessage();
 } else {
     favorites.forEach(async (fav) => {
+
         const favDiv = document.createElement('div');
         favDiv.classList.add('favorite-card');
+
+        const link = document.createElement('a');
+        link.href = `./card-detail.html?id=${fav.id}`;
 
         const favName = document.createElement('h2');
         const favNameCap = fav.name.replace(/\b\w/g, char => char.toUpperCase());
@@ -47,13 +53,22 @@ if (favorites.length === 0) {
             favDiv.appendChild(favSprite);
         }
 
-        // Creates the remove favorite pokemon button
+        link.appendChild(favDiv);
+
+        // This line creates the remove favorite pokemon button
+        // while also preventing the user from triggering the anchor
+        // link when removing the pokemon
         const removeButton = document.createElement('button');
         removeButton.textContent = 'Remove from Favorites';
-        removeButton.onclick = () => removeFromFavorites(fav.id, favDiv);
+
+        removeButton.onclick = (event) => {
+            event.preventDefault();
+
+            removeFromFavorites(fav.id, favDiv);
+        };
         favDiv.appendChild(removeButton);
 
-        favoritesContainer.appendChild(favDiv);
+        favoritesContainer.appendChild(link);
     });
 }
 
@@ -74,7 +89,7 @@ returnToTypesButton.addEventListener('click', () => {
     window.location.href = 'index.html';
 });
 
-//////////////////* Dark Mode *//////////////////////
+/* ---------------------------Dark Mode----------------------------- */
 
 const darkModeButton = document.getElementById('darkMode');
 
@@ -102,4 +117,6 @@ if (isDarkMode) {
 
 darkModeButton.addEventListener('click', toggleDarkMode);
 
-//////////////////////////////////////////
+/* -------------------------------------------------------- */
+
+updateCaughtCounter()
